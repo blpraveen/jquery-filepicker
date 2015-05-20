@@ -9,7 +9,8 @@
   var defaults = {
     style: 'auto', 
     renderUI: null, 
-    renderThumbnail: null
+    renderThumbnail: null,
+    previewEle: null
   };
   
   var dataOptions = ['label'];
@@ -108,7 +109,7 @@
       var instance = this;
       
       $preview.html("");
-      
+       options.style.previewEle.html('');
       // Loop through the FileList and render image files as thumbnails.
       $(files).each(function() {
         if (!this.type.match('image.*')) {
@@ -127,9 +128,13 @@
         }
         
         if (renderStyle) {
-          mugine.render($thumbnail.get(0), style.thumbnail, this);
+          if(style.thumbnail) {
+            mugine.render($thumbnail.get(0), style.thumbnail, this);
+          }
         }
-          
+        if(options.style.previewEle) {
+		      options.style.previewEle.append($thumbnail.clone(true));
+	      }  
       });
       
     }
